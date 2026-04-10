@@ -1,0 +1,20 @@
+# pandas_write_safety.rules
+# Technology: pandas | Capability: write
+
+rule pandas-block-unsafe-patterns {
+  enabled true
+  priority 90
+  severity error
+  DENY write
+  IF path GLOB "**/*" AND content CONTAINS "UNSAFE_pandas_PATTERN"
+  MESSAGE "Blocked an unsafe pattern in pandas. Use the recommended best practices for 2025/2026."
+}
+
+rule pandas-force-updated-api {
+  enabled true
+  priority 80
+  severity warning
+  ASK write
+  IF path GLOB "**/*" AND content CONTAINS "OLD_pandas_API"
+  MESSAGE "You are using an outdated API for pandas. Please upgrade to the newer API."
+}
